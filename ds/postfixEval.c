@@ -1,69 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 
-#define MAX 100
+#define MAX_STACK 100
 
-double stack[MAX];
+int stack[MAX_STACK];
 int top = -1;
 
-void push(double val) {
-    if(top >= MAX - 1) {
-        fprintf(stderr, "Stack overflow\n");
-        exit(EXIT_FAILURE);
-    }
-    stack[++top] = val;
+void push(int value)
+{
+    stack[++top] = value;
 }
 
-double pop() {
-    if(top < 0) {
-        fprintf(stderr, "Stack underflow\n");
-        exit(EXIT_FAILURE);
-    }
+int pop()
+{
     return stack[top--];
 }
 
-int main() {
-    char expr[256];
+int main()
+{
+    char expr[100];
     printf("Enter postfix expression: ");
-    if(!fgets(expr, sizeof(expr), stdin)) {
-        fprintf(stderr, "Error reading input\n");
-        return EXIT_FAILURE;
-    }
-    
-    char *token = strtok(expr, " \n");
-    while(token != NULL) {
-        if(isdigit(token[0])) {
-            push(atof(token));
-        } else {
-            double op2 = pop();
-            double op1 = pop();
-            switch(token[0]) {
-                case '+': push(op1 + op2); break;
-                case '-': push(op1 - op2); break;
-                case '*': push(op1 * op2); break;
-                case '/': 
-                    if(op2 == 0) {
-                        fprintf(stderr, "Division by zero error\n");
-                        exit(EXIT_FAILURE);
-                    }
-                    push(op1 / op2); 
-                    break;
-                default:
-                    fprintf(stderr, "Unknown operator: %s\n", token);
-                    exit(EXIT_FAILURE);
-            }
+    fgets(expr, 100, stdin);
+    expr[strcspn(expr, "\n")] = 0;
+
+    char *token = strtok(expr, " ");
+    while (token != NULL)
+    {
+        if (strcmp(token, "+") == 0)
+        {
+            int operand2 = pop();
+            int operand1 = pop();
+            push(operand1 + operand2);
         }
-        token = strtok(NULL, " \n");
+        else if (strcmp(token, "-") == 0)
+        {
+            int operand2 = pop();
+            int operand1 = pop();
+            push(operand1 - operand2);
+        }
+        else if (strcmp(token, "*") == 0)
+        {
+            int operand2 = pop();
+            int operand1 = pop();
+            push(operand1 * operand2);
+        }
+        else if (strcmp(token, "/") == 0)
+        {
+            int operand2 = pop();
+            int operand1 = pop();
+            push(operand1 / operand2);
+        }
+        else
+        {
+            push(atoi(token));
+        }
+        token = strtok(NULL, " ");
     }
-    
-    double result = pop();
-    if(top != -1) {
-        fprintf(stderr, "Error: The input expression is invalid.\n");
-        exit(EXIT_FAILURE);
-    }
-    
-    printf("Result = %lf\n", result);
+
+    printf("Result: %d\n", pop());
     return 0;
 }
