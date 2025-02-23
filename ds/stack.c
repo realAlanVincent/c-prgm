@@ -1,58 +1,55 @@
 #include <stdio.h>
 
-const int STACK_SIZE = 100;
+#define MAX 100
 
-int stack[100];
+int stack[MAX];
 int top = -1;
 
-void push(int value)
+void push (int value)
 {
-    if (top >= STACK_SIZE - 1)
+    if (top == MAX - 1)
     {
-        printf("Stack Overflow\n");
+        printf("Stack overflow\n");
     }
     else
     {
-        top++;
-        stack[top] = value;
-        printf("Pushed %d\n", value);
+        stack[++top] = value;
+        printf("%d pushed to stack\n", value);
     }
 }
 
-void pop()
+void pop (void)
 {
-    if (top < 0)
+    if (top == -1)
     {
-        printf("Stack Underflow\n");
+        printf("Stack underflow\n");
     }
     else
     {
-        int popped = stack[top];
-        top--;
-        printf("Popped %d\n", popped);
+        printf("%d popped from stack\n", stack[top--]);
     }
 }
 
-void display()
+void display (void)
 {
-    if (top < 0)
+    if (top == -1)
     {
         printf("Stack is empty\n");
     }
     else
     {
-        printf("Stack elements (top to bottom):\n");
-        for (int i = top; i >= 0; i--)
+        printf("Stack: ");
+        for (int i = 0; i <= top; i++)
         {
-            printf("%d\n", stack[i]);
+            printf("%d ", stack[i]);
         }
+        printf("\n");
     }
 }
 
-int main()
+int main (void)
 {
     int choice, value;
-
     while (1)
     {
         printf("\n1. Push\n2. Pop\n3. Display\n4. Exit\n");
@@ -84,11 +81,9 @@ int main()
             }
             default:
             {
-                printf("Invalid choice. Please try again.\n");
-                break;
+                printf("Invalid choice\n");
             }
         }
     }
-
     return 0;
 }
