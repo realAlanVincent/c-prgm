@@ -68,7 +68,7 @@ void findAllOccurrences(int arr[], int size, int target)
     printf("Element %d found at positions: ", target);
     for (int i = first; i <= last; i++)
     {
-        printf("%d ", i);
+        printf("%d ", i + 1);
     }
     printf("\nTotal occurrences: %d\n", (last - first + 1));
 }
