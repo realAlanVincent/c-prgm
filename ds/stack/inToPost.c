@@ -12,30 +12,6 @@ typedef struct
     int top;
 } Stack;
 
-// Function prototypes
-void init(Stack *s);
-int isEmpty(Stack *s);
-void push(Stack *s, char ch);
-char pop(Stack *s);
-char peek(Stack *s);
-int precedence(char ch);
-void infixToPostfix(const char *infix, char *postfix);
-
-int main()
-{
-    char infix[MAX], postfix[MAX];
-    
-    printf("Enter an infix expression: ");
-    fgets(infix, MAX, stdin);
-    infix[strcspn(infix, "\n")] = '\0';
-    
-    infixToPostfix(infix, postfix);
-    
-    printf("Postfix expression: %s\n", postfix);
-    
-    return 0;
-}
-
 // Initialize stack
 void init(Stack *s)
 {
@@ -75,11 +51,15 @@ int precedence(char ch)
     switch (ch)
     {
         case '+':
-        case '-': return 1;
+        case '-':
+            return 1;
         case '*':
-        case '/': return 2;
-        case '^': return 3;
-        default: return 0;
+        case '/':
+            return 2;
+        case '^':
+            return 3;
+        default:
+            return 0;
     }
 }
 
@@ -126,4 +106,19 @@ void infixToPostfix(const char *infix, char *postfix)
     }
     
     postfix[j] = '\0';
+}
+
+int main()
+{
+    char infix[MAX], postfix[MAX];
+    
+    printf("Enter an infix expression: ");
+    fgets(infix, MAX, stdin);
+    infix[strcspn(infix, "\n")] = '\0';
+    
+    infixToPostfix(infix, postfix);
+    
+    printf("Postfix expression: %s\n", postfix);
+    
+    return 0;
 }
