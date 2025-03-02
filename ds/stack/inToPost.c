@@ -17,49 +17,28 @@ void initStack(Stack *s)
     s->top = -1;
 }
 
-int isEmpty(Stack *s)
-{
-    return s->top == -1;
-}
-
-int isFull(Stack *s)
-{
-    return s->top == MAX - 1;
-}
-
 void push(Stack *s, char c)
 {
-    if (!isFull(s))
-    {
-        s->items[++s->top] = c;
-    }
+    s->items[++s->top] = c;
 }
 
 char pop(Stack *s)
 {
-    if (!isEmpty(s))
-    {
-        return s->items[s->top--];
-    }
-    return '#';
+    return s->items[s->top--];
 }
 
 char peek(Stack *s)
 {
-    if (!isEmpty(s))
-    {
-        return s->items[s->top];
-    }
-    return '#';
+    return s->items[s->top];
 }
 
 int precedence(char op)
 {
     switch (op)
     {
-        case '+':
+        case '+': 
         case '-': return 1;
-        case '*':
+        case '*': 
         case '/': return 2;
         case '^': return 3;
     }
@@ -71,7 +50,7 @@ void infixToPostfix(char *infix, char *postfix)
     Stack s;
     initStack(&s);
     int i, j = 0;
-    
+
     for (i = 0; infix[i] != '\0'; i++)
     {
         if (isalnum(infix[i]))
@@ -84,7 +63,7 @@ void infixToPostfix(char *infix, char *postfix)
         }
         else if (infix[i] == ')')
         {
-            while (!isEmpty(&s) && peek(&s) != '(')
+            while (peek(&s) != '(')
             {
                 postfix[j++] = pop(&s);
             }
@@ -92,15 +71,15 @@ void infixToPostfix(char *infix, char *postfix)
         }
         else
         {
-            while (!isEmpty(&s) && precedence(peek(&s)) >= precedence(infix[i]))
+            while (s.top != -1 && precedence(peek(&s)) >= precedence(infix[i]))
             {
                 postfix[j++] = pop(&s);
             }
             push(&s, infix[i]);
         }
     }
-    
-    while (!isEmpty(&s))
+
+    while (s.top != -1)
     {
         postfix[j++] = pop(&s);
     }
@@ -110,13 +89,13 @@ void infixToPostfix(char *infix, char *postfix)
 int main()
 {
     char infix[MAX], postfix[MAX];
-    
+
     printf("Enter infix expression: ");
     scanf("%s", infix);
-    
+
     infixToPostfix(infix, postfix);
-    
+
     printf("Postfix expression: %s\n", postfix);
-    
+
     return 0;
 }
