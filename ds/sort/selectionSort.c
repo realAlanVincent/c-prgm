@@ -1,23 +1,24 @@
 #include <stdio.h>
 
-// Function to perform selection sort
-void selectionSort(int arr[], int size)
+// Optimized Selection Sort
+void selectionSortOptimized(int arr[], int size)
 {
-    for (int i = 0; i < size - 1; i++)
+    for (int i = 0; i < size - 1; i++) 
     {
         int minIndex = i;
+        int swapped = 0;  // Flag to track if swap occurs
 
-        // Find the index of the smallest element in the unsorted part
-        for (int j = i + 1; j < size; j++)
+        for (int j = i + 1; j < size; j++) 
         {
-            if (arr[j] < arr[minIndex])
+            if (arr[j] < arr[minIndex]) 
             {
                 minIndex = j;
+                swapped = 1;  // A swap is needed
             }
         }
 
-        // Swap the found minimum element with the first element of the unsorted part
-        if (minIndex != i)
+        // Swap only if a smaller element was found
+        if (swapped) 
         {
             int temp = arr[i];
             arr[i] = arr[minIndex];
@@ -26,10 +27,10 @@ void selectionSort(int arr[], int size)
     }
 }
 
-// Function to print the array
+// Function to print an array
 void printArray(int arr[], int size)
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) 
     {
         printf("%d ", arr[i]);
     }
@@ -39,31 +40,25 @@ void printArray(int arr[], int size)
 int main()
 {
     int size;
-    
-    // Taking array size from the user
+
+    // Taking input from the user
     printf("Enter the number of elements: ");
     scanf("%d", &size);
 
-    // Handle invalid sizes
-    if (size <= 0)
-    {
-        printf("Invalid array size! Please enter a positive number.\n");
-        return 1;
-    }
-
     int arr[size];
 
-    // Taking array elements from the user
     printf("Enter %d elements: ", size);
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) 
     {
         scanf("%d", &arr[i]);
     }
 
-    // Sorting the array
-    selectionSort(arr, size);
+    printf("Original array: ");
+    printArray(arr, size);
 
-    // Printing the sorted array
+    // Sorting the array
+    selectionSortOptimized(arr, size);
+
     printf("Sorted array: ");
     printArray(arr, size);
 
