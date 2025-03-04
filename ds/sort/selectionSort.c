@@ -47,7 +47,6 @@ int main()
         scanf("%d", &arr[i]);
     }
 
-    
     selectionSort(arr, size);
 
     printf("Sorted array: ");
